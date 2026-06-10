@@ -61,7 +61,7 @@ public class Trainer extends Person {
      */
     @Override
     public String getDisplayName() {
-        return this.getFirstname() + " " + this.getLastname();
+        return "Trainer Name: " + this.getFirstname() + " " + this.getLastname();
     }
 
 }

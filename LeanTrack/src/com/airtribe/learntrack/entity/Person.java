@@ -8,8 +8,8 @@ package com.airtribe.learntrack.entity;
  */
 public class Person {
     private final String id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String email;
 
     /**
@@ -25,14 +25,14 @@ public class Person {
      * Constructs a new person with a full name and email address.
      *
      * @param id        the unique person identifier
-     * @param firstname the person's first name
-     * @param lastname  the person's last name
+     * @param firstName the person's first name
+     * @param lastName  the person's last name
      * @param email     the person's email address
      */
-    public Person(String id, String firstname, String lastname, String email) {
+    public Person(String id, String firstName, String lastName, String email) {
         this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
@@ -40,14 +40,27 @@ public class Person {
      * Constructs a new person without an email address.
      *
      * @param id        the unique person identifier
-     * @param firstname the person's first name
-     * @param lastname  the person's last name
+     * @param firstName the person's first name
+     * @param lastName  the person's last name
      */
-    public Person(String id, String firstname, String lastname) {
+    public Person(String id, String firstName, String lastName) {
         this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
+
+     /**
+     * Returns the person's display name.
+     * <p>
+     * This method also prints the display name to standard output.
+     *
+     * @return the first name and last name concatenated with a space
+     */
+    public String getDisplayName() {
+        System.out.println("Person: " + firstName + " " + lastName);
+        return firstName + " " + lastName;
+    }
+
 
     /**
      * Returns the person's first name.
@@ -55,7 +68,7 @@ public class Person {
      * @return the first name
      */
     public String getFirstname() {
-        return firstname;
+        return firstName;
     }
 
     /**
@@ -64,7 +77,7 @@ public class Person {
      * @param firstname the first name to set
      */
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        this.firstName = firstname;
     }
 
     /**
@@ -73,7 +86,7 @@ public class Person {
      * @return the last name
      */
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
 
     /**
@@ -82,7 +95,7 @@ public class Person {
      * @param lastname the last name to set
      */
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lastName = lastname;
     }
 
     /**
@@ -91,6 +104,9 @@ public class Person {
      * @return the email address, or {@code null} if not set
      */
     public String getEmail() {
+        if(email == null) {
+            return "-";
+        }
         return email;
     }
 
@@ -103,16 +119,5 @@ public class Person {
         this.email = email;
     }
 
-    /**
-     * Returns the person's display name.
-     * <p>
-     * This method also prints the display name to standard output.
-     *
-     * @return the first name and last name concatenated with a space
-     */
-    public String getDisplayName() {
-        System.out.println("Person: " + firstname + " " + lastname);
-        return firstname + " " + lastname;
-    }
-
+   
 }

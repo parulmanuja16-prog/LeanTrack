@@ -1,5 +1,7 @@
 package com.airtribe.learntrack.entity;
 
+import com.airtribe.learntrack.util.IdGenerator;
+
 /**
  * Represents a student in the LearnTrack application.
  * <p>
@@ -13,34 +15,35 @@ public class Student extends Person {
 
     /**
      * Constructs a new student with an email address.
+     * <p>
+     * The student is assigned a generated ID and is active by default.
      *
-     * @param id        the student identifier
-     * @param firstname the student's first name
-     * @param lastname  the student's last name
+     * @param firstName the student's first name
+     * @param lastName  the student's last name
      * @param email     the student's email address
      * @param batch     the batch associated with the student
-     * @param active    whether the student is currently active
      */
-    public Student(String id, String firstname, String lastname, String email, String batch, boolean active) {
-        super(id, firstname, lastname, email);
+    public Student(String firstName, String lastName, String email, String batch) {
+        super(IdGenerator.getNextStudentId(), firstName, lastName, email);
         this.batch = batch;
-        this.active = active;
+        this.active = true;
     }
 
     /**
      * Constructs a new student without an email address.
+     * <p>
+     * The student is assigned a generated ID and is active by default.
      *
-     * @param id        the student identifier
-     * @param firstname the student's first name
-     * @param lastname  the student's last name
+     * @param firstName the student's first name
+     * @param lastName  the student's last name
      * @param batch     the batch associated with the student
-     * @param active    whether the student is currently active
      */
-    public Student(String id, String firstname, String lastname, String batch, boolean active) {
-        super(id, firstname, lastname);
+    public Student(String firstName, String lastName, String batch) {
+        super(IdGenerator.getNextStudentId(), firstName, lastName);
         this.batch = batch;
-        this.active = active;
+        this.active = true;
     }
+    
 
     /**
      * Returns the student's batch assignment.
@@ -80,7 +83,7 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return "Student: {ID='" + this.getId() + "', Name='" + this.getDisplayName() + "', Email='" + this.getEmail() + "', Batch='" + batch + "', Active=" + active + '}';
+        return "Student: {ID='" + this.getId() + "', '" + this.getDisplayName() + "', Email='" + this.getEmail() + "', Batch='" + batch + "', Active=" + active + '}';
     }
 
     /**
@@ -90,7 +93,7 @@ public class Student extends Person {
      */
     @Override
     public String getDisplayName() {
-        String name = this.getFirstname() + " " + this.getLastname();
+        String name = "Student Name: " + this.getFirstname() + " " + this.getLastname();
         return name;
     }
 }

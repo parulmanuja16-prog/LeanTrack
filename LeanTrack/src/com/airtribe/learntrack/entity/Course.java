@@ -1,5 +1,7 @@
 package com.airtribe.learntrack.entity;
 
+import com.airtribe.learntrack.util.IdGenerator;
+
 /**
  * Represents a course in the LearnTrack application.
  * <p>
@@ -15,19 +17,19 @@ public class Course {
 
     /**
      * Constructs a new course instance.
+     * <p>
+     * The course is assigned a generated ID and is active by default.
      *
-     * @param id              the unique course identifier
      * @param courseName      the human-readable course name
      * @param description     a short description of the course
      * @param durationInWeeks the duration of the course in weeks
-     * @param active          whether the course is active
      */
-    public Course(String id, String courseName, String description, int durationInWeeks, boolean active) {
-        this.id = id;
+    public Course(String courseName, String description, int durationInWeeks) {
+        this.id = IdGenerator.getNextCourseId();
         this.courseName = courseName;
         this.description = description;
         this.durationInWeeks = durationInWeeks;
-        this.active = active;
+        this.active = true; // New courses are active by default
     }
 
     @Override

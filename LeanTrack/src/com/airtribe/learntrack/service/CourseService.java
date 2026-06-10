@@ -2,7 +2,7 @@ package com.airtribe.learntrack.service;
 
 import com.airtribe.learntrack.entity.Course;
 import com.airtribe.learntrack.exception.EntityNotFoundException;
-import com.airtribe.learntrack.util.IdGenerator;
+import com.airtribe.learntrack.exception.NotValidDataException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +21,10 @@ public class CourseService {
      *
      * @param name        the course name
      * @param description a description of the course
-     * @param duration    the duration of the course in weeks or hours
+     * @param duration    the duration of the course in weeks
      */
     public void addCourse(String name, String description, int duration) {
-        courses.add(new Course(IdGenerator.getNextCourseId(), name, description, duration,true));
+        courses.add(new Course(name, description, duration));
     }
 
     /**
@@ -44,31 +44,42 @@ public class CourseService {
     }
 
     /**
-     * Prints all available courses to standard output.
-     * <p>
-     * If no courses are registered, a message is displayed instead.
+     * Returns all available courses in the system.
+     *
+     * @return the list of available courses
      */
-    public void viewAllCourses() {
-        if(courses.isEmpty()){
-            System.out.println("No courses available.");
-            return;
-        }
-        courses.stream().forEach(System.out::println);
+    public List<Course> viewAllCourses() {
+        return courses;
     }
 
     /**
-     * Deactivates a course by marking it inactive.
+     * Updates a course's active status.
      *
      * @param courseId the course identifier
+     * @param status   {@code 1} to activate the course, {@code 2} to deactivate it
+     * @return a message indicating the new status
      * @throws EntityNotFoundException if the course cannot be found
+     * @throws NotValidDataException   if the status is invalid or the requested state is already set
      */
-    public void deactivateCourse(String courseId){
-        Course course = null;
-        try {
-            course = this.getCourseById(courseId);
-            course.setActive(false);
-        } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Cannot deactivate as Course not found with ID: " + courseId);
+    public String changeCourseStatus(String courseId, int status) throws EntityNotFoundException, NotValidDataException{
+        Course course = this.getCourseById(courseId);
+        if(status==1){
+            if(course.isActive())
+                throw new NotValidDataException("Course is already active");
+            else
+                course.setActive(true);
+            return "Activated";
         }
+        else if(status==2){
+            if(!course.isActive()){
+                throw new NotValidDataException("Course is already deactivated.");
+            }else
+                course.setActive(false);
+                return "Deactivated";
+        }else{
+            throw new NotValidDataException("Invalid choice for activatin/deactivation");
+        }
+       
     }
+
 }

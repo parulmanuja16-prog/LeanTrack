@@ -56,4 +56,4 @@ The application is implemented with a package structure under `src/com/airtribe/
 If you are using Visual Studio Code, the Java extension can also build and run the project directly via the Java Projects view or the Run Code command.
 
 
-![Class Digram](image.png)
+![Class Diagram](LeanTrackClassDiagram.png)

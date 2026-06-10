@@ -3,6 +3,7 @@ package com.airtribe.learntrack.entity;
 import java.time.LocalDate;
 
 import com.airtribe.learntrack.constants.LeanTrackConstants.EnrollmentStatus;
+import com.airtribe.learntrack.util.IdGenerator;
 
 /**
  * Represents an enrollment record linking a student to a course.
@@ -11,28 +12,24 @@ import com.airtribe.learntrack.constants.LeanTrackConstants.EnrollmentStatus;
  * enrollment date, and current status.
  */
 public class Enrollment {
-    private String id;
+    private final String id;
     private String studentId;
     private String courseId;
     private LocalDate enrollmentDate;
-    private Enum<EnrollmentStatus> status;
+    private EnrollmentStatus status;
 
     /**
      * Constructs a new enrollment instance.
      *
-     * @param id             the unique enrollment identifier
      * @param studentId      the ID of the enrolled student
      * @param courseId       the ID of the course being enrolled in
-     * @param enrollmentDate the date the enrollment was created
-     * @param status         the current enrollment status
      */
-    public Enrollment(String id, String studentId, String courseId, LocalDate enrollmentDate,
-            Enum<EnrollmentStatus> status) {
-        this.id = id;
+    public Enrollment(String studentId, String courseId) {
+        this.id = IdGenerator.getNextEnrollmentId();
         this.studentId = studentId;
         this.courseId = courseId;
-        this.enrollmentDate = enrollmentDate;
-        this.status = status;
+        this.enrollmentDate = java.time.LocalDate.now();
+        this.status = EnrollmentStatus.ACTIVE; // New enrollments are active by default
     }
 
     /**
@@ -44,14 +41,6 @@ public class Enrollment {
         return id;
     }
 
-    /**
-     * Sets the enrollment identifier.
-     *
-     * @param id the enrollment ID to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Returns the student ID tied to this enrollment.
@@ -86,6 +75,9 @@ public class Enrollment {
      * @param courseId the course ID to set
      */
     public void setCourseId(String courseId) {
+        if(courseId == null || "".equals(courseId)) {
+            throw new IllegalArgumentException("Course ID cannot be null or empty.");
+        }
         this.courseId = courseId;
     }
 
@@ -104,6 +96,9 @@ public class Enrollment {
      * @param enrollmentDate the date to set for enrollment
      */
     public void setEnrollmentDate(LocalDate enrollmentDate) {
+        if(enrollmentDate == null) {
+            throw new IllegalArgumentException("Enrollment date cannot be null.");
+        }
         this.enrollmentDate = enrollmentDate;
     }
 
@@ -112,7 +107,7 @@ public class Enrollment {
      *
      * @return the enrollment status
      */
-    public Enum<EnrollmentStatus> getStatus() {
+    public EnrollmentStatus getStatus() {
         return status;
     }
 
@@ -121,7 +116,10 @@ public class Enrollment {
      *
      * @param status the status to set
      */
-    public void setStatus(Enum<EnrollmentStatus> status) {
+    public void setStatus(EnrollmentStatus status) {
+        if(status == null) {
+            throw new IllegalArgumentException("Enrollment status cannot be null.");
+        }
         this.status = status;
     }
 

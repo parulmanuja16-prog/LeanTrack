@@ -22,8 +22,10 @@ public class InputValidation {
      */
     public static boolean isValidEmail(String email) {
         // Simple regex for email validation
+        
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
         return email.matches(emailRegex);
+        
     }
 
     /**
@@ -45,10 +47,7 @@ public class InputValidation {
      */
     public static int validateInt(String input) {
         try { 
-            int num = Integer.parseInt(input);
-            if(num < 0) {
-                throw new InvalidInputException("Please enter a non-negative number.");
-            }
+            int num = Integer.parseInt(input);            
             return num;
         } catch (NumberFormatException e) {
            throw new InvalidInputException("Please enter a valid number.");

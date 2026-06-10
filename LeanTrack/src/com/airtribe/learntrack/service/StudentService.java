@@ -2,8 +2,7 @@ package com.airtribe.learntrack.service;
 
 import com.airtribe.learntrack.entity.Student;
 import com.airtribe.learntrack.exception.EntityNotFoundException;
-import com.airtribe.learntrack.util.IdGenerator;
-import com.airtribe.learntrack.util.InputUtil;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,23 +28,19 @@ public class StudentService {
     public void addNewStudent(String firstName, String lastName, String email, String batch) {
         Student student = null;
         if (email == null) {
-            student = new Student(IdGenerator.getNextStudentId(), firstName, lastName, batch, true);
+            student = new Student( firstName, lastName, batch);
         } else
-            student = new Student(IdGenerator.getNextStudentId(), firstName, lastName, email, batch, true);
+            student = new Student(firstName, lastName, email, batch);
         students.add(student);
     }
 
     /**
-     * Prints all stored students to standard output.
-     * <p>
-     * If no students are available, a notification message is displayed.
+     * Returns all stored students in the system.
+     *
+     * @return the list of stored students
      */
-    public void viewAllStudents() {
-        if (students.isEmpty()) {
-            InputUtil.printLine("No students available.");
-            return;
-        }
-        students.forEach(System.out::println);
+    public List<Student> viewAllStudents() {
+        return students;
     }
 
     /**
@@ -118,26 +113,6 @@ public class StudentService {
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Cannot update email and batch as Student not found with ID: " + id);
         }
-    }
-
-    /**
-     * Removes a student from the in-memory store.
-     *
-     * @param id the student identifier
-     * @throws EntityNotFoundException if the student cannot be found
-     */
-    public void removeStudent(String id) throws EntityNotFoundException {
-        Student student = null;
-        for (Student s : students) {
-            if (s.getId().equalsIgnoreCase(id)) {
-                student = s;
-                break;
-            }
-        }
-        if (student == null) {
-            throw new EntityNotFoundException("Student not found with ID: " + id);
-        }
-        students.remove(student);
     }
 
 }
